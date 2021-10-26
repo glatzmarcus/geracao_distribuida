@@ -43,9 +43,9 @@ circuit.Solution.Solve()
 # Exportando os monitores para formato .csv
 text.Command = f'Export monitors linha1_voltage'
 text.Command = f'Export monitors linha1_power'
-# Comando para mostrar informações relevantes
-text.Command = f'Show voltage ln nodes'
-text.Command = f'Show Powers kva elem'
+# # Comando para mostrar informações relevantes
+# text.Command = f'Show voltage ln nodes'
+# text.Command = f'Show Powers kva elem'
 
 # Pegando informações do medidor_power e adicionando em um Data Frame
 mon_power = pd.read_csv('IEEE13Nodeckt_Mon_linha1_power.csv', sep=',')
@@ -156,4 +156,4 @@ def corrente(head=head_voltage, df=df_voltage):
     plt.savefig("../Corrente_GD.png")
 
 
-plot = corrente()
+plot = pot_ativa()
