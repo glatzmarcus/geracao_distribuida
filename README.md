@@ -1,1 +1,1 @@
-# Gera-o-Distribu-da
+# Geração Distribuída
