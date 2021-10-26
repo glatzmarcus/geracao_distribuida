@@ -9,25 +9,43 @@ import dss
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Funções principais
+# OpenDSS objeto
 solver_dss = dss.DSS
+# Método para solve
 circuit = solver_dss.ActiveCircuit
+# Método comando por texto
 text = solver_dss.Text
 
 # Adicionando caso de estudo 13Bus_IEEE
-text.Command = "Redirect 13Bus/IEEE13Nodeckt_GD.dss"
-text.Command = "compile 13Bus/IEEE13Nodeckt_GD.dss"
+text.Command = "Redirect 13Bus/IEEE13Nodeckt.dss"
+text.Command = "compile 13Bus/IEEE13Nodeckt.dss"
 
-# # Adicionando GD
-# text.Command = f'New XYCurve.MyPvsT npts=4 xarray=[0 25 75 100] yarray=[1.2 1 .8 .60]'
-# text.Command = f'New XYCurve.MyEff npts=4 xarray=[.1 .2 .4 1] yarray=[.86 .9 .93 .97]'
-# text.Command = f'New loadshape.MyIrrad npts=24 interval=1 mult=[0 0 0 0 0 0 .1 .2 .3 .5 .8 .9 1.0 1.0 .99 .9 .7 .4 .1 0 0 0 0 0 ]'
-# text.Command = f'New Tshape.Mytemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]'
-# text.Command = f'New PVSystem.PV phases=3 bus1=trafo_pv kv=0.48 irrad=.98 pmpp=1500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
-# text.Command = f'New Transformer.pv_up phases=3 xhl=5.750000 wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye'
+# Solve OpenDSS
+# circuit.Solution.Solve()
+
+# Descrição do sistema GD
+# Definição da curva de temperatura
+text.Command = f'New XYCurve.MyPvsT npts=4 xarray=[0 25 75 100] yarray=[1.2 1 .8 .60]'
+# Curva de eficiência
+text.Command = f'New XYCurve.MyEff npts=4 xarray=[.1 .2 .4 1] yarray=[.86 .9 .93 .97]'
+# Curva de irradiação durante o dia
+text.Command = f'New loadshape.MyIrrad npts=24 interval=1 mult=[0 0 0 0 0 0 .1 .2 .3 .5 .8 .9 1.0 1.0 .99 .9 .7 .4 .1 0 0 0 0 0 ]'
+# Curva de temperatura
+text.Command = f'New Tshape.Mytemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]'
+# Definições do sistema solar PVSystem
+text.Command = f'New PVSystem.PV phases=3 bus1=trafo_pv kv=0.48 irrad=.98 pmpp=1500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
+# Definições do trafo para conectar o PV na rede
+text.Command = f'New Transformer.pv_up phases=3 xhl=5.750000 wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye'
 
 # Solve OpenDSS
 circuit.Solution.Solve()
+
+# Exportando os monitores para formato .csv
+text.Command = f'Export monitors linha1_voltage'
+text.Command = f'Export monitors linha1_power'
+# Comando para mostrar informações relevantes
+text.Command = f'Show voltage ln nodes'
+text.Command = f'Show Powers kva elem'
 
 # Pegando informações do medidor_power e adicionando em um Data Frame
 mon_power = pd.read_csv('IEEE13Nodeckt_Mon_linha1_power.csv', sep=',')
