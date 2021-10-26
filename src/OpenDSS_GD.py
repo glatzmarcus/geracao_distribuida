@@ -17,7 +17,7 @@ circuit = solver_dss.ActiveCircuit
 text = solver_dss.Text
 
 # Adicionando caso de estudo 13Bus_IEEE
-text.Command = "Redirect 13Bus/IEEE13Nodeckt.dss"
+# text.Command = "Redirect 13Bus/IEEE13Nodeckt.dss"
 text.Command = "compile 13Bus/IEEE13Nodeckt.dss"
 
 # Solve OpenDSS
