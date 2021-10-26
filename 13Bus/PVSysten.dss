@@ -1,0 +1,19 @@
+!DESCRIÇÃO DO SISTEMA FOTOVOLTAICO
+
+!DEFINIÇÃO DA CURVA DE TEMPERATURA
+New XYCurve.MyPvsT npts=4 xarray=[0 25 75 100] yarray=[1.2 1 .8 .60]
+
+New XYCurve.MyEff npts=4 xarray=[.1 .2 .4 1] yarray=[.86 .9 .93 .97]
+
+New loadshape.MyIrrad npts=24 interval=1
+~ mult=[0 0 0 0 0 0 .1 .2 .3 .5 .8 .9 1.0 1.0 .99 .9 .7 .4 .1 0 0 0 0 0 ]
+
+New Tshape.Mytemp npts=24 interval=1
+~ temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]
+
+New PVSystem.PV phases=3 bus1=trafo_pv kv=0.48 irrad=.98 pmpp=1500 temperature=25 PF=1
+~ %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp
+
+New Transformer.pv_up phases=3 xhl=5.750000
+~ wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye
+~ wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye
