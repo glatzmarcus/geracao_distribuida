@@ -9,6 +9,7 @@ import dss
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 class OpenDSS():
         # OpenDSS objeto
         solver_dss = dss.DSS
@@ -17,12 +18,25 @@ class OpenDSS():
         # Método comando por texto
         text = solver_dss.Text
 
-        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss"):
-            self.dss_file=dss_file
-            # Adicionando caso de estudo 13Bus_IEEE
-
+        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd=None):
+            self.dss_file = dss_file
             # OpenDSS.text.Command = "Redirect 13Bus/IEEE13Nodeckt.dss"
             OpenDSS.text.Command = "compile {}".format(dss_file)
+            if gd is None:
+                gd = False
+            if gd is True:
+                # Definição da curva de temperatura
+                OpenDSS.text.Command = f'New XYCurve.MyPvsT npts=4 xarray=[0 25 75 100] yarray=[1.2 1 .8 .60]'
+                # Curva de eficiência
+                OpenDSS.text.Command = f'New XYCurve.MyEff npts=4 xarray=[.1 .2 .4 1] yarray=[.86 .9 .93 .97]'
+                # Curva de irradiação durante o dia
+                OpenDSS.text.Command = f'New loadshape.MyIrrad npts=24 interval=1 mult=[0 0 0 0 0 0 .1 .2 .3 .5 .8 .9 1.0 1.0 .99 .9 .7 .4 .1 0 0 0 0 0 ]'
+                # Curva de temperatura
+                OpenDSS.text.Command = f'New Tshape.Mytemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]'
+                # Definições do sistema solar PVSystem
+                OpenDSS.text.Command = f'New PVSystem.PV phases=3 bus1=trafo_pv kv=0.48 irrad=.98 pmpp=1500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
+                # Definições do trafo para conectar o PV na rede
+                OpenDSS.text.Command = f'New Transformer.pv_up phases=3 xhl=5.750000 wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye'
 
             # Solve OpenDSS
             OpenDSS.circuit.Solution.Solve()
@@ -71,7 +85,7 @@ class mon_power(OpenDSS):
         plt.plot(p2, 'b', label='P2')
         plt.plot(p3, 'g', label='P3')
         plt.legend()
-        plt.savefig("../Potência_ativa.png")
+        plt.savefig("../Resultados mon_power/Potência_ativa.png")
 
     # Função para potência reativa
     def pot_reativa(self):
@@ -93,7 +107,7 @@ class mon_power(OpenDSS):
         plt.plot(q2, 'b', label='Q2')
         plt.plot(q3, 'g', label='Q3')
         plt.legend()
-        plt.savefig("../Potência_reativa.png")
+        plt.savefig("../Resultados mon_power/Potência_reativa.png")
 
 
 class mon_voltage(OpenDSS):
@@ -130,7 +144,7 @@ class mon_voltage(OpenDSS):
         plt.plot(v2, 'b', label='V2')
         plt.plot(v3, 'g', label='V3')
         plt.legend()
-        plt.savefig("../Tensão.png")
+        plt.savefig("../Resultados mon_voltage/Tensão.png")
 
     def corrente(self):
         head_voltage = self.head_voltage
@@ -151,13 +165,13 @@ class mon_voltage(OpenDSS):
         plt.plot(i2, 'b', label='I2')
         plt.plot(i3, 'g', label='I3')
         plt.legend()
-        plt.savefig("../Corrente.png")
+        plt.savefig("../Resultados mon_voltage/Corrente.png")
 
 
 # solve_power = mon_power()
 # ativa = solve_power.pot_ativa()
 # reativa = solve_power.pot_reativa()
 
-solve_voltage = mon_voltage()
-tensao = solve_voltage.tensao()
-corrente = solve_voltage.corrente()
+# solve_voltage = mon_voltage()
+# tensao = solve_voltage.tensao()
+# corrente = solve_voltage.corrente()
