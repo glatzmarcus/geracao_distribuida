@@ -142,7 +142,3 @@ New monitor.linha1_voltage element=line.650632 terminal=1 mode=0
 set mode = daily
 set stepsize = 1.0h
 set number = 24
-solve
-
-Export monitors linha1_voltage
-Export monitors linha1_power

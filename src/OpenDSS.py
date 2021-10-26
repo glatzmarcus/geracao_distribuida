@@ -9,9 +9,11 @@ import dss
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Funções principais
+# OpenDSS objeto
 solver_dss = dss.DSS
+# Método para solve
 circuit = solver_dss.ActiveCircuit
+# Método comando por texto
 text = solver_dss.Text
 
 # Adicionando caso de estudo 13Bus_IEEE
@@ -20,6 +22,13 @@ text.Command = "compile 13Bus/IEEE13Nodeckt.dss"
 
 # Solve OpenDSS
 circuit.Solution.Solve()
+
+# Exportando os monitores para formato .csv
+text.Command = f'Export monitors linha1_voltage'
+text.Command = f'Export monitors linha1_power'
+# Comando para mostrar informações relevantes
+text.Command = f'Show voltage ln nodes'
+text.Command = f'Show Powers kva elem'
 
 # Pegando informações do medidor_power e adicionando em um Data Frame
 mon_power = pd.read_csv('IEEE13Nodeckt_Mon_linha1_power.csv', sep=',')
