@@ -196,13 +196,12 @@ class mon_voltage(OpenDSS):
         plt.legend()
         plt.savefig("../Resultados mon_voltage/Corrente.png")
 
-
-# dss = OpenDSS(gd=True)
-# dss.gd = True
+# # solve para medidor de power
 # solve_power = mon_power()
 # ativa = solve_power.pot_ativa()
 # reativa = solve_power.pot_reativa()
 
+# # solve para medidor voltage
 # solve_voltage = mon_voltage()
 # tensao = solve_voltage.tensao()
 # corrente = solve_voltage.corrente()
