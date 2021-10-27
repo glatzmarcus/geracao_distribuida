@@ -18,12 +18,25 @@ class OpenDSS():
         # Método comando por texto
         text = solver_dss.Text
 
-        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd=None):
+        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss"):
+            gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
+            
+            if gd in 'true':
+                gd = True
+
+            elif gd in 'false':
+                gd = False
+
+            elif gd != 'true' or 'false':
+                print("Except Error: Resposta com true ou false\n Iremos considerar sem gd")
+                gd = None
+
             self.dss_file = dss_file
             # OpenDSS.text.Command = "Redirect 13Bus/IEEE13Nodeckt.dss"
             OpenDSS.text.Command = "compile {}".format(dss_file)
             if gd is None:
                 gd = False
+                print('Simulação sem gd')
             if gd is True:
                 # Definição da curva de temperatura
                 OpenDSS.text.Command = f'New XYCurve.MyPvsT npts=4 xarray=[0 25 75 100] yarray=[1.2 1 .8 .60]'
@@ -37,7 +50,7 @@ class OpenDSS():
                 OpenDSS.text.Command = f'New PVSystem.PV phases=3 bus1=trafo_pv kv=0.48 irrad=.98 pmpp=1500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
                 # Definições do trafo para conectar o PV na rede
                 OpenDSS.text.Command = f'New Transformer.pv_up phases=3 xhl=5.750000 wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye'
-
+                print('Simulação com gd')
             # Solve OpenDSS
             OpenDSS.circuit.Solution.Solve()
 
@@ -47,7 +60,7 @@ class OpenDSS():
             # # Comando para mostrar informações relevantes
             # text.Command = f'Show voltage ln nodes'
             # text.Command = f'Show Powers kva elem'
-            print('Construtor chamado para criar um objeto desta classe')
+            # print('Construtor chamado para criar um objeto desta classe')
 
 
 class mon_power(OpenDSS):
@@ -60,7 +73,7 @@ class mon_power(OpenDSS):
         head_power = []
         for i in df_power:
             head_power == head_power.append(i)
-        print("O cabeçalho do mon_power é:", head_power)
+        # print("O cabeçalho do mon_power é:", head_power)
 
         self.df_power = df_power
         self.head_power = head_power
@@ -120,7 +133,7 @@ class mon_voltage(OpenDSS):
         head_voltage = []
         for i in df_voltage:
             head_voltage == head_voltage.append(i)
-        print("O cabeçalho do mon_voltage é:", head_voltage)
+        # print("O cabeçalho do mon_voltage é:", head_voltage)
 
         self.df_voltage = df_voltage
         self.head_voltage = head_voltage
@@ -168,6 +181,8 @@ class mon_voltage(OpenDSS):
         plt.savefig("../Resultados mon_voltage/Corrente.png")
 
 
+# dss = OpenDSS(gd=True)
+# dss.gd = True
 # solve_power = mon_power()
 # ativa = solve_power.pot_ativa()
 # reativa = solve_power.pot_reativa()
