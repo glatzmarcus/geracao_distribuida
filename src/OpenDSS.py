@@ -51,6 +51,18 @@ class OpenDSS():
                 # Definições do trafo para conectar o PV na rede
                 OpenDSS.text.Command = f'New Transformer.pv_up phases=3 xhl=5.750000 wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye'
                 print('Simulação com gd')
+            # ADICIONANDO UM MEDIDOR NA ENTRADA DO ALIMENTADOR PARA MEDIÇÃO DOS RESULTADOS
+            OpenDSS.text.Command = f'New energymeter.medidor element=line.650632 terminal=1'
+
+            # CRIANDO MONITOR PARA VISUALIZAR OS PAREMETROS DE ANALISE DA REDE ( TENSAO, POTENCIA, CORRENTE,  REATIVO)
+            OpenDSS.text.Command = f'New monitor.linha1_power element=line.650632 terminal=1 mode=1 ppolar=no'
+            OpenDSS.text.Command = f'New monitor.linha1_voltage element=line.650632 terminal=1 mode=0'
+            # MODO DE SOLUÇÃO DO SISTEMA
+            # RESOLVER DURANTE AS 24HORAS
+            # COM INTERVALO DE AMOSTRAGEM DE 1 HORA, COM TOTAL DE 24 AMOSTRAS    
+            OpenDSS.text.Command = f'set mode = daily'
+            OpenDSS.text.Command = f'set stepsize = 1.0h'
+            OpenDSS.text.Command = f'set number = 24'
             # Solve OpenDSS
             OpenDSS.circuit.Solution.Solve()
 

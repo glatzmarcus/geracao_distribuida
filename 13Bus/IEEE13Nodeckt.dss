@@ -116,7 +116,7 @@ New Line.684652    Phases=1 Bus1=684.1        Bus2=652.1      LineCode=mtx607 Le
 
 !ADICIONANDO UM MEDIDOR NA ENTRADA DO ALIMENTADOR PARA MEDIÇÃO DOS RESULTADOS
 
-New energymeter.medidor element=line.650632 terminal=1
+!New energymeter.medidor element=line.650632 terminal=1
 
 !DEFINIÇÃO DAS CHAVES 
 
@@ -132,13 +132,13 @@ BusCoords IEEE13Node_BusXY.csv
 
 ! CRIANDO MONITOR PARA VISUALIZAR OS PAREMETROS DE ANALISE DA REDE ( TENSAO, POTENCIA, CORRENTE,  REATIVO)
 
-New monitor.linha1_power element=line.650632 terminal=1 mode=1 ppolar=no 
-New monitor.linha1_voltage element=line.650632 terminal=1 mode=0
+!New monitor.linha1_power element=line.650632 terminal=1 mode=1 ppolar=no 
+!New monitor.linha1_voltage element=line.650632 terminal=1 mode=0
 
 ! MODO DE SOLUÇÃO DO SISTEMA
 ! RESOLVER DURANTE AS 24HORAS
 ! COM INTERVALO DE AMOSTRAGEM DE 1 HORA, COM TOTAL DE 24 AMOSTRAS
 ! ENFIM SOLVE PARA RESOLVER.
-set mode = daily
-set stepsize = 1.0h
-set number = 24
+! set mode = daily
+! set stepsize = 1.0h
+! set number = 24
