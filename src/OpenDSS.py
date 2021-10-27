@@ -1,7 +1,9 @@
 """
 Universidade Estadual de Campinas - UNICAMP
 IT745 - Geração Distribuída de Energia Elétrica
-Written by Marcus Felipy Glatz Rodrigues <m264538@dac.unicamp.br>
+Academics
+    Marcus Felipy Glatz Rodrigues <m264538@dac.unicamp.br>
+    Jeremias Nhonga David Camarada <j234614@dac.unicamp.br>
 """
 
 # Imports para o script
@@ -47,17 +49,19 @@ class OpenDSS():
                 # Curva de temperatura
                 OpenDSS.text.Command = f'New Tshape.Mytemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]'
                 # Definições do sistema solar PVSystem
-                OpenDSS.text.Command = f'New PVSystem.PV phases=3 bus1=trafo_pv kv=0.48 irrad=.98 pmpp=1500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
+                OpenDSS.text.Command = f'New PVSystem.PV_1 phases=3 bus1=trafo_pv_1 kv=0.48 irrad=.98 pmpp=1000 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
+                OpenDSS.text.Command = f'New PVSystem.PV_2 phases=3 bus1=trafo_pv_2 kv=0.48 irrad=.98 pmpp=500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
                 # Definições do trafo para conectar o PV na rede
-                OpenDSS.text.Command = f'New Transformer.pv_up phases=3 xhl=5.750000 wdg=1 bus=trafo_pv KV=0.48 KVA=25 conn=wye wdg=2 bus=670 KV=2.4 KVA=200.000000 conn=wye'
+                OpenDSS.text.Command = f'New Transformer.pv_up_1 phases=3 xhl=5.750000 wdg=1 bus=trafo_pv_1 KV=0.48 KVA=25 conn=wye wdg=2 bus=632 KV=2.4 KVA=200.000000 conn=wye'
+                OpenDSS.text.Command = f'New Transformer.pv_up_2 phases=3 xhl=5.750000 wdg=1 bus=trafo_pv_2 KV=0.48 KVA=25 conn=wye wdg=2 bus=671 KV=2.4 KVA=200.000000 conn=wye'
                 print('Simulação com gd')
             
             # # INSERINDO CURVA DE CARGA RESIDENCIAL DE 1 EM 1 HORA PARA SIMULAÇAO DO MODO DAILY COM 24 PONTOS
-            # OpenDSS.text.Command = f'New loadshape.oneday npts=24 interval=1.0 mult=[0.3 0.3 0.3 0.35 0.36 0.39 0.41 0.48 0.52 0.59 0.62 0.94 0.87 0.91 0.95 0.95 1.0 0.98 0.94 0.92 0.61 0.6 0.51 0.44]'
+            OpenDSS.text.Command = f"New loadshape.oneday npts=24 interval=1.0 mult=[0.3 0.3 0.3 0.35 0.36 0.39 0.41 0.48 0.52 0.59 0.62 0.94 0.87 0.91 0.95 0.95 1.0 0.98 0.94 0.92 0.61 0.6 0.51 0.44]"
             
             # ADICIONANDO UM MEDIDOR NA ENTRADA DO ALIMENTADOR PARA MEDIÇÃO DOS RESULTADOS
             OpenDSS.text.Command = f'New energymeter.medidor element=line.650632 terminal=1'
-
+            
             # CRIANDO MONITOR PARA VISUALIZAR OS PAREMETROS DE ANALISE DA REDE ( TENSAO, POTENCIA, CORRENTE,  REATIVO)
             OpenDSS.text.Command = f'New monitor.linha1_power element=line.650632 terminal=1 mode=1 ppolar=no'
             OpenDSS.text.Command = f'New monitor.linha1_voltage element=line.650632 terminal=1 mode=0'
@@ -69,7 +73,6 @@ class OpenDSS():
             OpenDSS.text.Command = f'set number = 24'
             # Solve OpenDSS
             OpenDSS.circuit.Solution.Solve()
-
             # Exportando os monitores para formato .csv
             OpenDSS.text.Command = f'Export monitors linha1_voltage'
             OpenDSS.text.Command = f'Export monitors linha1_power'
@@ -196,13 +199,12 @@ class mon_voltage(OpenDSS):
         plt.legend()
         plt.savefig("../Resultados mon_voltage/Corrente.png")
 
-
-# dss = OpenDSS(gd=True)
-# dss.gd = True
+# # solve para medidor de power
 # solve_power = mon_power()
 # ativa = solve_power.pot_ativa()
 # reativa = solve_power.pot_reativa()
 
+# # solve para medidor voltage
 # solve_voltage = mon_voltage()
 # tensao = solve_voltage.tensao()
 # corrente = solve_voltage.corrente()

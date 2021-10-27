@@ -1,3 +1,11 @@
+"""
+Universidade Estadual de Campinas - UNICAMP
+IT745 - Geração Distribuída de Energia Elétrica
+Academics
+    Marcus Felipy Glatz Rodrigues <m264538@dac.unicamp.br>
+    Jeremias Nhonga David Camarada <j234614@dac.unicamp.br>
+"""
+
 from src.OpenDSS import OpenDSS
 from src.OpenDSS import mon_power
 from src.OpenDSS import mon_voltage
