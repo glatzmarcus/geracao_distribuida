@@ -1,7 +1,9 @@
 """
 Universidade Estadual de Campinas - UNICAMP
 IT745 - Geração Distribuída de Energia Elétrica
-Written by Marcus Felipy Glatz Rodrigues <m264538@dac.unicamp.br>
+Academics
+    Marcus Felipy Glatz Rodrigues <m264538@dac.unicamp.br>
+    Jeremias Nhonga David Camarada <j234614@dac.unicamp.br>
 """
 
 # Imports para o script
