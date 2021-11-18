@@ -49,11 +49,11 @@ class OpenDSS():
                 # Curva de temperatura
                 OpenDSS.text.Command = f'New Tshape.Mytemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]'
                 # Definições do sistema solar PVSystem
-                OpenDSS.text.Command = f'New PVSystem.PV_1 phases=3 bus1=trafo_pv_1 kv=0.48 irrad=.98 pmpp=1000 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
-                OpenDSS.text.Command = f'New PVSystem.PV_2 phases=3 bus1=trafo_pv_2 kv=0.48 irrad=.98 pmpp=500 temperature=25 PF=1 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
+                OpenDSS.text.Command = f'New PVSystem.PV_1 phases=3 bus1=trafo_pv_1 kv=0.48 irrad=.98 kva=1500 pmpp=1500 temperature=25 PF=.93 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
+                OpenDSS.text.Command = f'New PVSystem.PV_2 phases=3 bus1=trafo_pv_2 kv=0.48 irrad=.98 kva=500 pmpp=500 temperature=25 PF=.93 %cutin=.1 %cutout=.1 effcurve=MyEff P-tCurve=MyPvsT Daily=MyIrrad Tdaily=Mytemp'
                 # Definições do trafo para conectar o PV na rede
-                OpenDSS.text.Command = f'New Transformer.pv_up_1 phases=3 xhl=5.750000 wdg=1 bus=trafo_pv_1 KV=0.48 KVA=25 conn=wye wdg=2 bus=632 KV=2.4 KVA=200.000000 conn=wye'
-                OpenDSS.text.Command = f'New Transformer.pv_up_2 phases=3 xhl=5.750000 wdg=1 bus=trafo_pv_2 KV=0.48 KVA=25 conn=wye wdg=2 bus=671 KV=2.4 KVA=200.000000 conn=wye'
+                OpenDSS.text.Command = f'New Transformer.pv_up_1 phases=3 xhl=5.750000 wdg=1 bus=trafo_pv_1 KV=0.48 KVA=2000 conn=wye wdg=2 bus=632 KV=4.16 KVA=2000 conn=wye'
+                OpenDSS.text.Command = f'New Transformer.pv_up_2 phases=3 xhl=5.750000 wdg=1 bus=trafo_pv_2 KV=0.48 KVA=1000 conn=wye wdg=2 bus=671 KV=4.16 KVA=1000 conn=wye'
                 print('Simulação com gd')
             
             # # INSERINDO CURVA DE CARGA RESIDENCIAL DE 1 EM 1 HORA PARA SIMULAÇAO DO MODO DAILY COM 24 PONTOS
