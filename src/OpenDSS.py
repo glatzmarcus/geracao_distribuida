@@ -8,6 +8,7 @@ Academics
 
 # Imports para o script
 import dss
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -20,8 +21,8 @@ class OpenDSS():
         # Método comando por texto
         text = solver_dss.Text
 
-        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss"):
-            gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
+        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd='false'):
+            # gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
             
             if gd in 'true':
                 gd = True
@@ -110,12 +111,15 @@ class mon_power(OpenDSS):
         p2 = df_power[p2_name].tolist()
         p3 = df_power[p3_name].tolist()
         # Plotagem para potência ativa
+        plt.figure(figsize=(15, 10))
         plt.title("Representação das Curvas de potência ativa em cada fase")
-        plt.ylabel('KW')
-        plt.xlabel('Horas do dia')
-        plt.plot(p1, 'r', label='P1')
+        plt.ylabel('KW', fontsize=15)
+        plt.xlabel('Horas do dia', fontsize=15)
+        plt.plot(p1, 'y', label='P1')
         plt.plot(p2, 'b', label='P2')
         plt.plot(p3, 'g', label='P3')
+        plt.xticks(np.arange(24), ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',\
+            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
         plt.legend()
         plt.savefig("../Resultados mon_power/Potência_ativa.png")
 
@@ -132,12 +136,15 @@ class mon_power(OpenDSS):
         q2 = df_power[q2_name].tolist()
         q3 = df_power[q3_name].tolist()
         # Plotagem para potência reativa
+        plt.figure(figsize=(15, 10))
         plt.title("Representação das Curvas de potência reativa em cada fase")
-        plt.ylabel('KVAR')
-        plt.xlabel('Horas do dia')
-        plt.plot(q1, 'r', label='Q1')
+        plt.ylabel('KVAR', fontsize=15)
+        plt.xlabel('Horas do dia', fontsize=15)
+        plt.plot(q1, 'y', label='Q1')
         plt.plot(q2, 'b', label='Q2')
         plt.plot(q3, 'g', label='Q3')
+        plt.xticks(np.arange(24), ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',\
+            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
         plt.legend()
         plt.savefig("../Resultados mon_power/Potência_reativa.png")
 
@@ -168,13 +175,20 @@ class mon_voltage(OpenDSS):
         v1 = df_voltage[v1_name].tolist()
         v2 = df_voltage[v2_name].tolist()
         v3 = df_voltage[v3_name].tolist()
+        n = len(v1)
         # Plotagem para tensão
+        plt.figure(figsize=(15, 10))
         plt.title("Gráfico da Variação de Tensão em cada fase do sistema")
-        plt.ylabel('Volts')
-        plt.xlabel('Horas do dia')
-        plt.plot(v1, 'r', label='V1')
+        plt.ylabel('Volts', fontsize=15)
+        plt.xlabel('Horas do dia', fontsize=15)
+        plt.plot(v1, 'y', label='V1')
         plt.plot(v2, 'b', label='V2')
         plt.plot(v3, 'g', label='V3')
+        plt.plot(2400*np.ones(n), 'k--', label='Tensão ideal')
+        plt.plot(2520*np.ones(n), 'r--', label='Tensão máxima')
+        plt.plot(2232*np.ones(n), 'c--', label='Tensão mínima')
+        plt.xticks(np.arange(24), ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',\
+            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
         plt.legend()
         plt.savefig("../Resultados mon_voltage/Tensão.png")
 
@@ -190,12 +204,15 @@ class mon_voltage(OpenDSS):
         i2 = df_voltage[i2_name].tolist()
         i3 = df_voltage[i3_name].tolist()
         # Plotagem para corrente
+        plt.figure(figsize=(15, 10))
         plt.title("Gráfico da Variação de Corrente em cada fase do sistema")
-        plt.ylabel('Ampéres')
-        plt.xlabel('Horas do dia')
-        plt.plot(i1, 'r', label='I1')
+        plt.ylabel('Ampéres', fontsize=15)
+        plt.xlabel('Horas do dia', fontsize=15)
+        plt.plot(i1, 'y', label='I1')
         plt.plot(i2, 'b', label='I2')
         plt.plot(i3, 'g', label='I3')
+        plt.xticks(np.arange(24), ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',\
+            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
         plt.legend()
         plt.savefig("../Resultados mon_voltage/Corrente.png")
 
@@ -204,7 +221,7 @@ class mon_voltage(OpenDSS):
 # ativa = solve_power.pot_ativa()
 # reativa = solve_power.pot_reativa()
 
-# # solve para medidor voltage
-# solve_voltage = mon_voltage()
-# tensao = solve_voltage.tensao()
+# solve para medidor voltage
+solve_voltage = mon_voltage()
+tensao = solve_voltage.tensao()
 # corrente = solve_voltage.corrente()
