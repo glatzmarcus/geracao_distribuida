@@ -21,7 +21,7 @@ class OpenDSS():
         # Método comando por texto
         text = solver_dss.Text
 
-        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd='false'):
+        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd='true'):
             # gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
             
             if gd in 'true':
@@ -186,7 +186,7 @@ class mon_voltage(OpenDSS):
         plt.plot(v3, 'g', label='V3')
         plt.plot(2400*np.ones(n), 'k--', label='Tensão ideal')
         plt.plot(2520*np.ones(n), 'r--', label='Tensão máxima')
-        plt.plot(2232*np.ones(n), 'c--', label='Tensão mínima')
+        # plt.plot(2232*np.ones(n), 'c--', label='Tensão mínima')
         plt.xticks(np.arange(24), ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',\
             '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
         plt.legend()
@@ -221,7 +221,7 @@ class mon_voltage(OpenDSS):
 # ativa = solve_power.pot_ativa()
 # reativa = solve_power.pot_reativa()
 
-# solve para medidor voltage
-solve_voltage = mon_voltage()
-tensao = solve_voltage.tensao()
+# # solve para medidor voltage
+# solve_voltage = mon_voltage()
+# tensao = solve_voltage.tensao()
 # corrente = solve_voltage.corrente()
