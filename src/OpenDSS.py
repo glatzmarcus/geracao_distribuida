@@ -21,8 +21,8 @@ class OpenDSS():
         # Método comando por texto
         text = solver_dss.Text
 
-        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd='true'):
-            # gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
+        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss"):
+            gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
             
             if gd in 'true':
                 gd = True
