@@ -21,8 +21,8 @@ class OpenDSS():
         # Método comando por texto
         text = solver_dss.Text
 
-        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss"):
-            gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
+        def __init__(self, dss_file=r"13Bus/IEEE13Nodeckt.dss", gd='true'):
+            # gd = input("Com gd ou sem gd? (true para com gd e false para sem gd): ")
             
             if gd in 'true':
                 gd = True
@@ -111,10 +111,10 @@ class mon_power(OpenDSS):
         p2 = df_power[p2_name].tolist()
         p3 = df_power[p3_name].tolist()
         # Plotagem para potência ativa
-        plt.figure(figsize=(15, 10))
-        plt.title("Representação das Curvas de potência ativa em cada fase")
-        plt.ylabel('KW', fontsize=15)
-        plt.xlabel('Horas do dia', fontsize=15)
+        plt.figure(figsize=(14, 6))
+        plt.title("Representação das Curvas de potência ativa em cada fase", fontsize=15)
+        plt.ylabel('KW', fontsize=12)
+        plt.xlabel('Horas do dia', fontsize=12)
         plt.plot(p1, 'y', label='P1')
         plt.plot(p2, 'b', label='P2')
         plt.plot(p3, 'g', label='P3')
@@ -136,10 +136,10 @@ class mon_power(OpenDSS):
         q2 = df_power[q2_name].tolist()
         q3 = df_power[q3_name].tolist()
         # Plotagem para potência reativa
-        plt.figure(figsize=(15, 10))
-        plt.title("Representação das Curvas de potência reativa em cada fase")
-        plt.ylabel('KVAR', fontsize=15)
-        plt.xlabel('Horas do dia', fontsize=15)
+        plt.figure(figsize=(14, 6))
+        plt.title("Representação das Curvas de potência reativa em cada fase", fontsize=15)
+        plt.ylabel('KVAR', fontsize=12)
+        plt.xlabel('Horas do dia', fontsize=12)
         plt.plot(q1, 'y', label='Q1')
         plt.plot(q2, 'b', label='Q2')
         plt.plot(q3, 'g', label='Q3')
@@ -177,10 +177,10 @@ class mon_voltage(OpenDSS):
         v3 = df_voltage[v3_name].tolist()
         n = len(v1)
         # Plotagem para tensão
-        plt.figure(figsize=(15, 10))
-        plt.title("Gráfico da Variação de Tensão em cada fase do sistema")
-        plt.ylabel('Volts', fontsize=15)
-        plt.xlabel('Horas do dia', fontsize=15)
+        plt.figure(figsize=(14, 6))
+        plt.title("Gráfico da Variação de Tensão em cada fase do sistema", fontsize=15)
+        plt.ylabel('Volts', fontsize=12)
+        plt.xlabel('Horas do dia', fontsize=12)
         plt.plot(v1, 'y', label='V1')
         plt.plot(v2, 'b', label='V2')
         plt.plot(v3, 'g', label='V3')
@@ -204,10 +204,10 @@ class mon_voltage(OpenDSS):
         i2 = df_voltage[i2_name].tolist()
         i3 = df_voltage[i3_name].tolist()
         # Plotagem para corrente
-        plt.figure(figsize=(15, 10))
-        plt.title("Gráfico da Variação de Corrente em cada fase do sistema")
-        plt.ylabel('Ampéres', fontsize=15)
-        plt.xlabel('Horas do dia', fontsize=15)
+        plt.figure(figsize=(14, 6))
+        plt.title("Gráfico da Variação de Corrente em cada fase do sistema", fontsize=15)
+        plt.ylabel('Ampéres', fontsize=12)
+        plt.xlabel('Horas do dia', fontsize=12)
         plt.plot(i1, 'y', label='I1')
         plt.plot(i2, 'b', label='I2')
         plt.plot(i3, 'g', label='I3')
@@ -217,9 +217,9 @@ class mon_voltage(OpenDSS):
         plt.savefig("../Resultados mon_voltage/Corrente.png")
 
 # # solve para medidor de power
-# solve_power = mon_power()
+solve_power = mon_power()
 # ativa = solve_power.pot_ativa()
-# reativa = solve_power.pot_reativa()
+reativa = solve_power.pot_reativa()
 
 # # solve para medidor voltage
 # solve_voltage = mon_voltage()

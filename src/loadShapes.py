@@ -10,29 +10,43 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-loadshape = []
-0,30
-0,30
-0,30
-0,35
-0,36
-0,39
-0,41
-0,48
-0,52
-0,59
-0,62
-0,94
-0,87
-0,91
-0,95
-0,95
-1,00
-0,98
-0,94
-0,92
-0,61
-0,60
-0,51
-0,44
+shape_system = pd.read_csv(r"Resultados load_shape/load_shape-13bus.csv", sep=',')
+df_system = pd.DataFrame(shape_system)
+# print(df_system)
+head_system = []
+for i in df_system:
+    head_system == head_system.append(i)
+
+time_name = head_system[0]
+values_name = head_system[-1]
+
+time = df_system[time_name].to_list()
+values = df_system[values_name].to_list()
+
+values_certo = []
+
+obj = {'valores': values}
+for val in obj.keys():
+    for i in obj[val]:
+        if any(txt in i for txt in [","]):
+            i = i.replace(",", ".")
+            values_certo == values_certo.append(float(i))
+             
+
+print(time)
+print(values)
+print(values_certo)
+
+plt.figure(figsize=(14, 6))
+plt.plot(time, values_certo)
+plt.title("Load Shape da carga residêncial", fontsize=15)
+plt.ylabel('Potência da carga', fontsize=10)
+plt.xlabel('Horas do dia', fontsize=10)
+# plt.plot(values, 'r', label='loadShape')
+# # plt.plot(p3, 'g', label='P3')
+# plt.xticks(np.arange(24), ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',\
+#     '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
+plt.yticks([0, .25, .5, .75, 1], ["0%", "25%", "50%", "75%", "100%"])
+# plt.legend()
+plt.savefig(r"Resultados load_shape/load_shape-13bus.png")
 

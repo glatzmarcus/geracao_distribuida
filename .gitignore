@@ -32,8 +32,8 @@ codecov-*
 *.png
 *.txt
 *.Txt
-IEEE13Nodeckt_Mon_linha1_power.csv
-IEEE13Nodeckt_Mon_linha1_voltage.csv
+*.csv
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
